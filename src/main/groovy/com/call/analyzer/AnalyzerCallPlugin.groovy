@@ -40,8 +40,9 @@ class AnalyzerCallPlugin implements Plugin<Project> {
                     task.dependsOn(assembleTask)
                     task.classesDir.from(javaCompileTask.outputs.files.collect().toArray())
                     AnalyzerCallTask.ExcludeConfig excludeConfig = new AnalyzerCallTask.ExcludeConfig();
-                    excludeConfig.excludePackage = callAnalyzerExtension.excludePackage
-                    excludeConfig.excludePrefix = callAnalyzerExtension.excludePrefix
+                    def ext = project.extensions.getByType(AnalyzerCallExtension)
+                    excludeConfig.excludePackage = ext.excludePackage
+                    excludeConfig.excludePrefix = ext.excludePrefix
                     task.exclude.set(excludeConfig)
                     task.variant.set(variantName)
                     task.reportDirectory.set(project.file(project.buildDir.absolutePath + File.separator + "reports"))
